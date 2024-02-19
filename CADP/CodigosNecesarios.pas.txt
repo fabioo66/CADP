@@ -1,4 +1,0 @@
-program codigosNecesariosCadp
-begin
-	writeln('pete');
-end.
