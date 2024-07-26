@@ -1,67 +1,35 @@
-EJERCICIO 5
-program ejercicio5practica2;
-const
-  dimf = 5;
-type
-  tRan = 1..dimf;
-  vector = array [tRan] of integer;
+{Utilizando los módulos implementados en el ejercicio 4, realizar un programa que lea números enteros
+desde teclado (a lo sumo 100) y los almacene en un vector. La carga finaliza al leer el número 0. Al finalizar
+la carga, se debe intercambiar la posición del mayor elemento por la del menor elemento, e informe la
+operación realizada de la siguiente manera: “El elemento máximo ... que se encontraba en la posición ...
+fue intercambiado con el elemento mínimo ... que se encontraba en la posición ...”.}
 
-procedure cargarvector(var v:vector; diml: integer);
+program ejercicio5;
+const 
+    dimf = 100;
+type 
+    vector = array [1..dimf] of integer;
+
+procedure cargarVector(var v : vector; var diml : integer);
 var
-  pos:integer;
+    num : integer;
 begin
-  pos:= 1;
-  diml:= 1;
-  writeln('Ingrese el numero entero');
-  read(v[pos]);
-  while(v[pos] <> 0) and (diml < dimf) do begin
-    diml:= diml + 1;
-    pos:= pos + 1;
-    writeln('Ingrese el numero entero');
-    read(v[pos]);
-  end;
-end;
-procedure elementmax (v:vector; var maxvalor: integer; var maxpos: integer;diml:integer);
-var
-   i:integer;
-begin
-  for i:= 1 to diml do begin
-    if(v[i] > maxvalor)then begin
-      maxpos:= i;
-      maxvalor:= v[i];
+    readln(num);
+    diml := 0;
+    while ((num <> 0) and (diml < dimf)) do begin
+        diml := diml + 1;
+        v[diml] := num;
+        readln(num);
     end;
-  end;
 end;
-procedure elementmin(v:vector; var minvalor:integer; var minpos: integer;diml: integer);
+
 var
-  i:integer;
+    v : vector;
+    diml, posMin, posMax : integer;
 begin
-  for i:= 1 to diml do begin
-    if(v[i] < minvalor)then begin
-      minpos:= i;
-      minvalor:= v[i];
-    end;
-  end;
-end;
-procedure intercambio (var v: vector; x,y: tRan);
-var
-  aux:integer;
-begin
-  aux:= v[x];
-  v[x]:= v[y];
-  v[y]:= aux;
-end;
-var
-  diml,minv,minp,maxv,maxp,elementomaximo,elementominimo:integer;
-  v:vector;
-begin
-  minv:= 999;
-  minp:= 1;
-  maxv:= -999;
-  maxp:= 1;
-  cargarvector(v,diml);
-  elementmax(v,maxv,maxp,diml);
-  elementmin(v,minv,minp,diml);
-  intercambio(v,maxp,minp);
-  writeln('El elemento máximo ', maxv ,' que se encontraba en la posición ', maxp ,' fue intercambiado con el elemento mínimo ', minv ,' que se encontraba en la posición ', minp);
+    cargarVector(v, diml);
+    posMin := elementoMinimo(v, diml);
+    posMax := elementoMaximo(v, diml);
+    intercambio(v, posMin, posMax);
+    writeln('El elemento máximo ', v[posMax], ' que se encontraba en la posición ', posMax ,'fue intercambiado con el elemento mínimo ', v[posMin], ' que se encontraba en la posición ', posMin);
 end.

@@ -1,16 +1,12 @@
-procedure maximoyminimo (v:vector; var maxvalor, maxpos, minvalor, minpos: integer; diml: integer);
+procedure maximoyminimo (v:vector; var maxpos, minpos: integer; diml: integer);
 var
   i:integer
 begin
    for i:= 1 to diml do begin
-     if(v[i] > maxvalor)then begin
+     if(v[i] > maxvalor)then 
        maxpos:= i;
-       maxvalor:= v[i];
-     end
      else 
-       if(v[i] < minvalor)then begin
+       if(v[i] < minvalor)then 
          minpos:= i;
-         minvalor:= v[i];
-       end;
    end;
 end;

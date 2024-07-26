@@ -5,43 +5,43 @@ type
 
 procedure inicializar(var v:vector);
 var 
-  i:integer;
+    i:integer;
 begin
-  for i:= 0 to 9 do 
-    v[i]:= 0;
+    for i:= 0 to 9 do 
+        v[i]:= 0;
 end;
 
 procedure descomponer (var v:vector; num: integer);
-var
-  resto:integer;
 begin
-  while(num <> 0)do begin 
-    resto:= num mod 10;
-    v[resto]:= v[resto] + 1;
-    num:= num div 10;
-  end;
+    while(num <> 0)do begin 
+        v[resto]:= num mod 10 + 1;
+        num:= num div 10;
+    end;
 end;
+
 procedure maximodigito(v:vector; var max:integer; var posmax:integer);
 var
-  i:integer;
+    i:integer;
 begin
-  max:= -1;
-  posmax:= -1;
-  for i:= 0 to 9 do begin
-    if(v[i] > max)then begin
-      max:= v[i];
-      posmax:= i;
+    max:= -1;
+    posmax:= -1;
+    for i:= 0 to 9 do begin
+        if(v[i] > max)then begin
+            max:= v[i];
+            posmax:= i;
+        end;
     end;
-  end;
 end;
+
 procedure ocurrencias(v:vector);
 var
-  i:integer;
+    i:integer;
 begin
-  for i:= 0 to 9 do
-    if(v[i] <> 0)then
-      writeln(i,' = ',v[i] , 'veces');
-  end;
+    for i:= 0 to 9 do
+        if(v[i] <> 0)then
+            writeln(i,' = ',v[i] , 'veces');
+end;
+
 procedure sinocurrencias(v:vector);
 var
   i:integer;

@@ -1,70 +1,98 @@
-program ejercicio4Apractica4;
-function posx(v:vector; numx:integer):integer ;
+{Se dispone de un vector con 100 números enteros. Implementar los siguientes módulos:
+a) posicion: dado un número X y el vector de números, retorna la posición del número X en dicho vector,
+o el valor -1 en caso de no encontrarse.
+b) intercambio: recibe dos valores x e y (entre 1 y 100) y el vector de números, y retorna el mismo vector
+donde se intercambiaron los valores de las posiciones x e y.
+c) sumaVector: retorna la suma de todos los elementos del vector.
+d) promedio: devuelve el valor promedio de los elementos del vector.
+e) elementoMaximo: retorna la posición del mayor elemento del vector
+f) elementoMinimo: retorna la posicion del menor elemento del vector}
+
+program ejercicio4;
+type 
+    vector = array [1..100] of integer;
+  
+function posicion(v: vector; x: Integer): integer;
 var
-  pos:integer;
-  seguir:boolean;
+    i: integer;
+    ok: Boolean;
 begin
-  seguir:= true;
-  pos:= 1;
-  while (seguir = true) and (pos < dimf) do begin
-    if(v[pos] = numx)then begin
-      posx:= pos;
-      seguir:= false;
-    end
+    ok := false;
+    i := 1;
+    while ((i <= 100) and (not ok)) do begin
+        if (v[i] = x) then
+            ok := true
+        else
+            i := i + 1;
+    end;
+    if (ok) then
+        posicion := i
     else
-      pos:= pos + 1;
-  end;
-  if(seguir = false)then
-      posx:= pos;
-  else
-    posx:= -1;
+        posicion := -1;
 end;
-procedure intercambio (var v: vector; x,y: tRan);
+
+{b) intercambio: recibe dos valores x e y (entre 1 y 100) y el vector de números, y retorna el mismo vector
+donde se intercambiaron los valores de las posiciones x e y.}
+
+procedure intercambio (var v: vector; x, y: integer);
 var
-  aux:integer;
+    aux: integer;
 begin
-  aux:= v[x];
-  v[x]:= v[y];
-  v[y]:= aux;
+    aux := v[x];
+    v[x] := v[y];
+    v[y] := aux;
 end;
-function sumavector (v: vector): integer;
+
+{c) sumaVector: retorna la suma de todos los elementos del vector.}
+
+function sumaVector(v : vector): integer;
 var
-  i, suma:integer
+    i, suma : integer;
 begin
-  suma:= 0;
-  for i:= 1 to dimf do 
-    suma:= suma + v[i];
-  sumavector:= suma;
+    suma := 0;
+    for i := 1 to 100 do
+        suma := suma + v[i];
+    sumaVector := suma;
 end;
-function promedio(v:vector): real;
+
+{d) promedio: devuelve el valor promedio de los elementos del vector.}
+
+function promedio (v : vector): real;
 begin
-  promedio:= sumavector(v)/dimf;
+    promedio := sumaVector(v) / 100;
 end;
-function elementmax(v:vector): integer;
+
+{e) elementoMaximo: retorna la posición del mayor elemento del vector}
+
+function elementoMaximo(v : vector): integer;
 var
-  maxvalor, i, maxpos:integer;
+    i, max, pos : integer;
 begin
-  maxvalor:= -9999;
-  maxpos:= -1;
-  for i:= 1 to dimf do begin
-    if(v[i] < maxvalor)then begin
-      maxpos:= i;
-      maxvalor:= v[i];
+    max := -1;
+    for i := 1 to 100 do begin
+        if (v[i] > max) then begin
+            max := v[i];
+            pos := i;
+        end;
     end;
-  end;
-  elementmax:= maxpos;
+    elementoMaximo := pos;
 end;
-function elementmin(v:vector): integer;
+
+{f) elementoMinimo: retorna la posicion del menor elemento del vector}
+
+function elementoMinimo(v : vector): integer;
 var
-  minvalor, i, minpos:integer;
+    i, min, pos : integer;
 begin
-  minvalor:= 9999;
-  minpos:= 1;
-  for i:= 1 to dimf do begin
-    if(v[i] < minvalor)then begin
-      minpos:= i;
-      minvalor:= v[i];
+    minimo := 9999;
+    for i := 1 to 100 do begin
+        if (v[i] < min) then begin
+            min := v[i];
+            pos := i;
+        end;
     end;
-  end;
-  elementmin:= minpos;
+    elementoMinimo := pos;
 end;
+
+
+
