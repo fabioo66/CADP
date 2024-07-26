@@ -11,8 +11,10 @@ b)Un módulo para determinar la relación docente-alumno (esa relación se obtie
 de alumnos y la cantidad de docentes).}
 
 program ejercicio3;
+const
+    relacion = 23.435;
 type
-    escuela = record;
+    escuela = record
         cue : integer;
         nombre : string;
         cantdDocentes : integer;
@@ -36,5 +38,40 @@ end;
 
 function relacionDocenteAlumno(cantAlumnos, cantDocentes : integer): real;
 begin
-    relacionDocenteAlumno := e.cantAlumnos / e.cantDocentes;
+    relacionDocenteAlumno := cantAlumnos / cantDocentes;
 end;
+
+var
+    e : escuela;
+    i, cueMax1, cueMax2, escuelasLP : integer;
+    max1, max2, relacionDocAlu : real;
+    nombreMax1, nombreMax2 : string;
+begin
+    escuelasLP := 0;
+    max1 := -1;
+    max2 := -1;
+    for i:= 1 to 2400 do begin
+        leerEscuela(e);
+
+        relacionDocAlu := relacionDocenteAlumno(e.cantAlumnos, e.cantdDocentes);
+        if(e.localidad = 'La Plata') and (relacionDocAlu > relacion) then
+                escuelasLP:= escuelasLP + 1;
+
+        if (relacionDocAlu > max1) then begin
+            max2 := max1;
+            cueMax2 := cueMax1;
+            nombreMax2 := nombreMax1;
+            max1 := relacionDocAlu;
+            cueMax1 := e.cue;
+            nombreMax1 := e.nombre
+        end
+        else if (relacionDocAlu > max2) then begin
+            max2 := relacionDocAlu;
+            cueMax2 := e.cue;
+            nombreMax2 := e.nombre;
+        end;
+    end;
+    writeln('Cantidad de escuelas de La Plata con relación alumnos/docente superior a la sugerida: ', escuelasLP);
+    writeln('CUE y nombre de la escuela con mejor relación docente/alumno: ', cueMax1, ' ', nombreMax1);
+    writeln('CUE y nombre de la segunda escuela con mejor relación docente/alumno: ', cueMax2, ' ', nombreMax2);
+end.
