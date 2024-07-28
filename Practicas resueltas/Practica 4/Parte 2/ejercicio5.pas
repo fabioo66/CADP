@@ -33,7 +33,6 @@ type
 	end;
 	
 	vector = array[1..dimf] of cliente;
-	contratosMes = array[1..12] of integer;
 	vectorCategorias = array[A..F] of integer;
 	vectorCiudades = array[1..10] of cRango;
 
@@ -73,7 +72,7 @@ begin
 	end;
 end;
 
-
-
-
-
+procedure procesar(v : vector);
+begin
+	writeln('I give up');
+end;
