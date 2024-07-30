@@ -1,0 +1,2 @@
+# Operacion NEW
+Cuando se ejecuta la operacion new, lo primero que hace el lenguaje, es analizar a que apunta la variable puntero y en base a eso le pide al sistema operativo cuantos bytes de memoria necesita. El sistema operativo le pasa la direccion de memoria donde fue reservado el espacio de memoria solicitado. En resumen la operacion NEW reserva espacio en memoria dinamica
