@@ -32,43 +32,40 @@ a) Hasta la sentencia de la línea 18
 b) Hasta la sentencia de la línea 20
 c) Hasta la sentencia de la línea 23
 d) Hasta la sentencia de la línea 11
-e) Hasta la sentencia de la línea 25}
+e) Hasta la sentencia de la línea 25
 
-//a) Memoria estatica : 
-// vect : 21 * 2 = 42 bytes
-// pvect : 4 bytes 
-// i : 2 bytes
+a) Memoria estatica : 
+vect : 20 * 2 = 40 bytes
+pvect : 4 bytes 
+i : 2 bytes
 
-// Memoria dinamica :
-// Por el momento no se ha reservado memoria dinamica
+Memoria dinamica :
+Por el momento no se ha reservado memoria dinamica
 
-//b) Memoria estatica :
-// vect : 21 * 2 = 42 bytes
-// pvect : 4 bytes 
-// i : 2 bytes
+b) Memoria estatica :
+vect : 20 * 2 = 40 bytes
+pvect : 4 bytes 
+i : 2 bytes
 
-// Memoria dinamica :
-// Por el momento no se ha reservado memoria dinamica
+Memoria dinamica :
+Por el momento no se ha reservado memoria dinamica
 
-//c) Memoria estatica :
-// vect : 21 * 2 = 42 bytes
-// pvect : 4 bytes 
-// i : 2 bytes
+c) Memoria estatica :
+vect : 20 * 2 = 40 bytes
+pvect : 4 bytes 
+i : 2 bytes
 
-// Memoria dinamica :
-// new(pvect) : 4 bytes
+Memoria dinamica :
+new(pvect) : 40 bytes
 
-//d) Memoria estatica :
-// vect : 21 * 2 = 42 bytes
-// pvect : 4 bytes 
-// i : 2 bytes
+d) Hasta la sentencia de la linea 11:
+No hay nada en memoria (en cuanto a variables, constantes y parámetros refiere), ya que las variables locales al módulo y los parámetros serán
+cargados en memoria una vez que el procedimiento sea invocado.
 
-// Memoria dinamica :
+e) Memoria estatica :
+vect : 20 * 2 = 40 bytes
+pvect : 4 bytes 
+i : 2 bytes
 
-//e) Memoria estatica :
-// vect : 21 * 2 = 42 bytes
-// pvect : 4 bytes 
-// i : 2 bytes
-
-// Memoria dinamica :
-// new(pvect) : 4 bytes
+Memoria dinamica :
+new(pvect) : 40 bytes
