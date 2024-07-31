@@ -1,80 +1,85 @@
+{La Facultad de Informática debe seleccionar los 10 egresados con mejor promedio a los que la UNLP les
+entregará el premio Joaquín V. González. De cada egresado se conoce su número de alumno, apellido y el
+promedio obtenido durante toda su carrera.
+Implementar un programa que:
+a. Lea la información de todos los egresados, hasta ingresar el código 0, el cual no debe procesarse.
+b. Una vez ingresada la información de los egresados, informe el apellido y número de alumno de los
+egresados que recibirán el premio. La información debe imprimirse ordenada según el promedio del egresado
+(de mayor a menor).}
+
 program ejercicio11;
+
 type
-  alumno = record
-    nro: integer;
-    apellido: string;
-    promedio: real;
-  end;
-  lista= ^nodo;
-  nodo = record
-    dato:alumno;
-    sig:lista;
-  end;
-procedure leeralumno(var a: alumno);
+    egresado = record
+        numero: integer;
+        apellido: string;
+        promedio: real;
+    end;
+
+    lista = ^nodo;
+    nodo = record
+        dato: egresado;
+        sig: lista;
+    end;
+
+procedure leerEgresado(var e: egresado);
 begin
-  writeln('Ingrese el codigo');
-  readln(a.nro);
-  if(a.nro <> 0)then begin
-    writeln('Ingrese el apellido');
-    readln(a.apellido);
-    writeln('Ingrese el promedio');
-    readln(a.promedio);
-  end;
+    write('Ingrese el número de alumno: '); 
+    readln(e.numero);
+    if(e.numero <> 0) then begin
+        write('Ingrese el apellido: '); 
+        readln(e.apellido);
+        write('Ingrese el promedio: '); 
+        readln(e.promedio);
+    end;
 end;
-procedure agregarAdelante(var L:lista; a:alumno);
+
+procedure insertarordenado(var L: lista; e: egresado);
 var
-  nue: lista;
+    nue, act, ant: lista;
 begin
-  new (nue);
-  nue^.dato := a;
-  nue^.sig := L;
-  L:= nue;
+    new(nue);
+    nue^.dato := e;
+    act := L;
+    ant := L;
+    while (act <> nil) and (e.promedio < act^.dato.promedio) do begin
+        ant := act;
+        act := act^.sig;
+    end;
+    if (act = ant) then
+        L := nue
+    else
+        ant^.sig := nue;
+    nue^.sig := act;
 end;
-procedure cargarLista(var L:lista);
+
+procedure cargarLista(var L: lista);
 var
-  a: alumno;
-Begin
-  leeralumno(a); 
-  while(a.nro <> 0) do begin
-    agregarAdelante(L, a);
-    leeralumno(a);
-  end;
-end;
-procedure insertarordenado(var L:lista; a:alumno);
-var
-  nue, act, ant:lista;
+    e: egresado;
 begin
-  new(nue);
-  nue^.dato:= a;
-  act:= L;
-  ant:= L;
-  while(act <> nil)and(a.promedio < act^.dato.promedio)do begin
-    ant:= act;
-    act:= act^.sig;
-  end;
-  if(act = ant)then
-    L:= nue
-  else 
-    ant^.sig:= nue;
-  nue^.sig:= act;
+    leerEgresado(e);
+    while(e.numero <> 0) do begin
+        insertarordenado(L, e);
+        leerEgresado(e);
+    end;
 end;
+
 procedure informarpromedios(L: lista);
 var
-  i:integer;
-begin 
-  for i:= 1 to 10 do begin 
-    if(L <> nil)then begin
-      writeln(L^.dato.apellido, L^.dato.nro);
-      L:= L^.sig;
-    end;
-  end;
-end;
-var
-  L: lista;
-  a: alumno;
+    i: integer;
 begin
-  L:= nil;
-  cargarLista(L);
-  insertarordenado(L, a);
-  informarpromedios(L);
+    i := 0;
+    while (L <> nil) and (i < 10) do begin
+        writeln('Apellido: ', L^.dato.apellido, ', Número: ', L^.dato.numero, ', Promedio: ', L^.dato.promedio:0:2);
+        L := L^.sig;
+        i := i + 1;
+    end;
+end;
+
+var
+    L: lista;
+begin
+    L := nil;
+    cargarLista(L);
+    informarpromedios(L);
 end.
