@@ -1,118 +1,122 @@
+{Una productora nacional realiza un casting de personas para la selección de actores extras de una nueva 
+película, para ello se debe leer y almacenar la información de las personas que desean participar  de 
+dicho casting. De cada persona se lee: DNI, apellido y nombre, edad y el código de género de actuación 
+que prefiere (1: drama, 2: romántico, 3: acción, 4: suspenso, 5: terror). La lectura finaliza cuando llega 
+una persona con DNI 33555444, la cual debe procesarse.  
+Una vez finalizada la lectura de todas las personas, se pide:  
+a. Informar la cantidad de personas cuyo DNI contiene más dígitos pares que impares.  
+b. Informar los dos códigos de género más elegidos.  
+c. Realizar un módulo que reciba un DNI, lo busque y lo elimine de la estructura. El DNI puede no 
+existir. Invocar dicho módulo en el programa principal.}
+
 program ejercicio1;
 type
-	crango = 1..5;
-	persona = record
-		dni: integer;
-		nomYApe: string;
-		edad: integer;
-		codigo: crango;
-	end;
-  
-	lista = ^nodoLista;
-	nodoLista = record
-		dato: persona;
-		sig: lista;
-	end;
-  
-	vector = array[crango] of integer;
-  
-procedure leerPersona(var p:persona);
+    cadena = string[30];
+    genero = 1..5;
+
+    persona = record
+        dni: integer;
+        apellido: cadena;
+        nombre: cadena;
+        edad: integer;
+        codGenero: genero;
+    end;
+
+    lista = ^nodo;
+    nodo = record
+        dato: persona;
+        sig: lista;
+    end;
+
+    vectorContador = array[genero] of integer;
+
+procedure leerPersona(var p: persona);
 begin
-	writeln('Ingrese el dni de la persona');
-	readln(p.dni);
-	if(p.dni <> 335)then begin
-		writeln('Ingrese el nombre y apellido');
-		readln(p.nomYApe);
-		writeln('Ingrese la edad de la persona');
-		//readln(p.edad);
-		p.edad:= random(20)+18;
-		writeln(p.edad);
-		writeln('Ingrese el codigo de genero de actuacion');
-		//readln(p.codigo);
-		p.codigo:= random(5)+1;
-		writeln(p.codigo);
-	end;
+    writeln('Ingrese el DNI de la persona');
+    readln(p.dni);
+    if (p.dni <> 33555444) then
+    begin
+        writeln('Ingrese el apellido de la persona');
+        readln(p.apellido);
+        writeln('Ingrese el nombre de la persona');
+        readln(p.nombre);
+        writeln('Ingrese la edad de la persona');
+        readln(p.edad);
+        writeln('Ingrese el codigo de genero de actuacion que prefiere');
+        readln(p.codGenero);
+    end;
 end;
 
-procedure agregarAdelante(var L:lista; p: persona);
+procedure agregarAdelante(var l: lista; p: persona);
 var
-	nue: lista;
+    nuevo: lista;
 begin
-	new(nue);
-	nue^.dato:= p;
-	nue^.sig:= L;
-	L:= nue;
+    new(nuevo);
+    nuevo^.dato := p;
+    nuevo^.sig := l;
+    l := nuevo;
 end;
 
-procedure cargarLista(var L:lista);
+procedure cargarLista(var l: lista);
+var 
+    p: persona;
+begin
+    repeat
+        leerPersona(p);
+        agregarAdelante(l, p);
+    until(p.dni = 33555444) 
+end;
+
+function masParesQueImpares(dni: integer): boolean;
 var
-	p:persona;
+    cantPares, cantImpares: integer;
 begin
-	repeat
-		leerPersona(p);
-		agregarAdelante(L, p);
-    until(p.dni = 335);
+    cantPares := 0;
+    cantImpares := 0;
+    while (dni <> 0) do begin
+        if ((dni mod 10) mod 2 = 0) then
+            cantPares := cantPares + 1
+        else
+            cantImpares := cantImpares + 1;
+        dni := dni div 10;
+    end;
+    masParesQueImpares := cantPares > cantImpares;
 end;
 
-procedure inicializarVector(var v: vector);
+procedure procesar(l: lista; var vc: vectorContador; var cantPares: integer);
+begin
+    cantPares := 0;
+    while(l <> nil) do begin
+        if (masParesQueImpares(l^.dato.dni)) then
+            cantPares := cantPares + 1;
+        vc[l^.dato.codGenero] := vc[l^.dato.codGenero] + 1;
+        l := l^.sig;
+    end;
+end;
+
+procedure informarMasElegidos(vc: vectorContador; var cod1, cod2: genero);
 var
-	i: integer;
+    i, max1, max2: integer;
 begin
-	for i:= 1 to 5 do
-		v[i]:= 0;
-end;
-
-function masPares(num: integer): boolean;
-var
-  pares, impares: integer;
-begin
-	pares:= 0;
-	impares:= 0;
-	while(num <> 0)do begin
-		if((num mod 10) mod 2 = 0)then
-			pares:= pares + 1
-		else
-			impares:= impares + 1;
-		num:= num div 10;
-	end;
-	masPares:= pares > impares;	
-end;
-
-procedure procesarLista(L:lista; var v:vector; var cant: integer);
-begin
-	cant:= 0;
-	while(L <> nil)do begin
-	  if(masPares(L^.dato.dni))then
-	    cant:= cant + 1;
-	  v[L^.dato.codigo]:= v[L^.dato.codigo] + 1;
-	  L:= L^.sig;
-	end;
-end;
-
-procedure codigosMasElegidos(v:vector; var code1, code2: integer);
-var
-	i, max1, max2: integer;
-begin
-	max1:= -9999;
-	max2:= -9999;
-	for i:= 1 to 5 do begin
-	  if(v[i] > max1)then begin
-	    code2:= code1;
-	    max2:= max1;
-	    code1:= i;
-	    max1:= v[i]
-	  end
-	  else
-	    if(v[i] > max2)then begin
-			max2:= v[i];
-			code2:= i;
-	    end;
-	end;
+    max1 := -1;
+    max2 := -1;
+    for i := 1 to 5 do begin
+        if (vc[i] > max1) then begin
+            max2 := max1;
+            cod2 := cod1;
+            max1 := vc[i];
+            cod1 := i;
+        end
+        else if (vc[i] > max2) then begin
+            max2 := vc[i];
+            cod2 := i;
+        end;
+    end;
 end;
 
 procedure eliminar(var L:lista; dni: integer; var encontre: boolean);
 var
-  act, ant: lista;
+    act, ant: lista;
 begin
 	encontre:= false;
 	act:= L;
@@ -130,25 +134,25 @@ begin
 	end;
 end;
 
-VAR
-	L: lista;
-	v: vector;
-	dni, code1, code2, cant: integer;
-	encontre: boolean;
-BEGIN
-    randomize;
-	L:= nil;
-	cargarLista(L);
-	inicializarVector(v);
-	procesarLista(L, v, cant);
-	writeln('La cantidad de dni con mas pares que impares es ', cant);
-	codigosMasElegidos(v, code1, code2);
-	writeln('Los codigos de genero mas elegidos son ', code1, ' y ', code2);
-	writeln('Ingrese un dni para eliminar a la persona');
-	readln(dni);
-	eliminar(l, dni, encontre);
-	if(encontre)then
-		writeln('El dni fue encontrado y se elimino a esa persona')
-	else
-		writeln('El dni no fue encontrado');
-END.
+var
+    l: lista;
+    vc: vectorContador;
+    cantPares: integer;
+    cod1, cod2: genero;
+    dni: integer;
+    encontre: boolean;
+begin   
+    l := nil;
+    cargarLista(l);
+    procesar(l, vc, cantPares);
+    informarMasElegidos(vc, cod1, cod2);
+    writeln('La cantidad de personas cuyo DNI contiene mas digitos pares que impares es: ', cantPares);
+    writeln('Los dos codigos de genero mas elegidos son: ', cod1, ' y ', cod2);
+    writeln('Ingrese el DNI a eliminar');
+    readln(dni);
+    eliminar(l, dni, encontre);
+    if (encontre) then
+        writeln('El DNI se elimino correctamente')
+    else
+        writeln('El DNI no se encontro');
+end.
