@@ -28,4 +28,4 @@ begin
     aux^.dato:= aux^.dato * 2;
 end;
 
-{Si el registro lista contiene dos punteros uno con el primer elemento de la lista y otro con el ultimo elemento de la lista los dos procedimientos son correctos. Puede que el duplicar2 sea un poc mas ineficiente ya que recorre toda la lista para llegar al ultimo elemento, sabiendo que el ultimo elemento ya esta guardado en el registro lista. Pero ambos procedimientos cumplen con el objetivo de duplicar el contenido del ultimo nodo de la lista. Si el registro lista no contiene el puntero al ultimo elemento de la lista, el procedimiento duplicar1 no es correcto ya que no se puede acceder al ultimo nodo de la lista. En cambio, el procedimiento duplicar2 si es correcto ya que recorre la lista hasta llegar al ultimo nodo.}
+{Si el registro lista contiene dos punteros uno con el primer elemento de la lista y otro con el ultimo elemento de la lista el primer procedimiento es correcto. El duplicar2 es incorrecto ya que si la lista esta vacia accedes al siguiente de nil y esto es incorrecto.}

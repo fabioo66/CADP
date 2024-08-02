@@ -41,4 +41,27 @@ end.
 {
 CALCULO DE TIEMPO:
 
+for = (3N+2) + N(cuerpo del for)
+while = C(N+1) + N(cuerpo while)
+if = condicion + max(cuerpo if, cuerpo else)
+
+for:
+N = 200
+(3*200+2) + 2(cuerpo for + cuerpo while + if)
+
+while:
+C = 1
+1(N+1) + N(2 + 2) 
+while = 5N + 1
+
+if:
+3 ut
+
+fuera del if (cuerpo del for):
+1ut + 1ut + 1ut = 3ut
+
+total = (3*200+2) + 2(3 + 5N + 1 + 3) 
+      = (602) + 2(7 + 5N)
+      = 602 + 14 + 10N
+      = 616ut
 }
