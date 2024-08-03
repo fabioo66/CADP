@@ -13,56 +13,79 @@ type
     end;
 
     vector = array [1..dimF] of cliente;
-    vectorDni = array [dRango] of integer;
+
+    lista = ^nodo;
+    nodo = record
+        dato: integer;
+        sig: lista;
+    end;
 
 // se dispone
 procedure cargarVector(var v: vector; var dimL: integer);
 
-procedure cargarVectorDni(var vd: vectorDni; dni: integer);
-var 
-    i: integer;
+procedure agregarAdelante(var l: lista; num: integer);
+var
+    nuevo: lista;
 begin
-    for i := 1 to 8 do begin
-        vd[i] := dni mod 10;
-        dni := dni div 10;
-    end;
+    new(nuevo);
+    nuevo^.dato := num;
+    nuevo^.sig := l;
+    l := nuevo;
 end;
 
-function esCapicua(vd: vectorDni): boolean;
+procedure cargarLista(var l: lista; num: integer);
+begin
+    l := nil;
+    while (num <> 0) do begin
+        agregarAdelante(l, num mod 10);
+        num := num div 10;
+    end; 
+end;
+
+function esCapicua(l: lista; dni: integer): boolean;
 var
-    i, j: integer;
     ok : boolean;
 begin
-    i := 1;
-    j := 8;
     ok := true;
-    while((ok) and (i <> 5)) do begin
-        if (vd[i] <> vd[j]) then
+    while (l <> nil) and (ok) do begin
+        if (l^.dato <> dni mod 10) then
             ok := false;
-        i := i + 1;
-        j := j - 1;
+        l := l^.sig;
+        dni := dni div 10;
     end;
     esCapicua := ok;
 end;
 
-function cantidadClientesCapicua(v: vector; dimL: integer; var vd : vectorDni): integer;
+procedure limpiarLista(var l: lista);
 var
-    i, cant: integer;
+    aux: lista;
+begin
+    while (l <> nil) do begin
+        aux := l;
+        l := l^.sig;
+        dispose(aux);
+    end;
+end;
+
+procedure cantidadClientesCapicua(v: vector; dimL: integer; var l: lista; var cant: integer);
+var
+    i: integer;
 begin
     cant := 0;
     for i := 1 to diml do begin
-        cargarVectorDni(vd, v[i].numDNI);
-        if (esCapicua(vd)) then
-            cant += 1;
+        cargarLista(l, v[i].numDNI);
+        if (esCapicua(l, v[i].numDNI)) then
+            cant := cant + 1;
+        limpiarLista(l);
     end;
-    cantidadClientesCapicua := cant;
 end;
 
 var
     v: vector;
     dimL: integer;
-    vd: vectorDni;
+    l: lista;
 begin
     cargarVector(v, dimL);
-    writeln('La cantidad de clientes cuyo DNI es capicua es: ', cantidadClientesCapicua(v, dimL, vd));
+    cantidadClientesCapicua(v, dimL, vd, cant);
+    writeln('La cantidad de clientes cuyo DNI es capicua es: ', cant); 
 end.
